@@ -1,5 +1,6 @@
 import os
 import pymysql
+import urllib.request
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,4 +19,12 @@ def get_email(user_id):
     return cursor.fetchone()[0]
 
 
-print(get_email(1))
+def decrypt_email(email):
+    url = os.environ.get('DECRYPT_API_URL')
+    request = urllib.request.urlopen(url + email).read()
+    return request.decode('utf-8').split()[0]
+
+
+encrypted_email = get_email(187593)
+decrypted_email = decrypt_email(encrypted_email)
+print(decrypted_email)
