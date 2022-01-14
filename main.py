@@ -10,6 +10,12 @@ load_dotenv()
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 
+def count_email():
+    sql = 'select count(*) from member_email_encrypt'
+    cursor.execute(sql)
+    return cursor.fetchone()[0]
+
+
 def get_email(user_id):
     sql = 'select user_email from member_email_encrypt where id = %s'
     cursor.execute(sql, user_id)
@@ -43,7 +49,7 @@ connection = pymysql.connect(
 cursor = connection.cursor()
 
 i = 1
-while i < 999:
+while i <= count_email():
     encrypted_email = get_email(i)
     # print('id: ', i, ', encrypt: ', encrypted_email)
     decrypted_email = decrypt_email(encrypted_email)
