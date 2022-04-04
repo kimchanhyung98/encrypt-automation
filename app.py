@@ -1,5 +1,5 @@
-from modules.common import *
-# from modules.email import *
+from services.common import *
+# from services.email import *
 
 for i in range(1, count_column()):
     encrypted_data = get_data(i)
