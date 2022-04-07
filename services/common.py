@@ -24,10 +24,20 @@ def get_data(user_id):
 # @param string $encrypted_data
 # @return string
 def decrypt_data(encrypted_data):
-    decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
-    decode_data = decrypted_data.decode('cp949')
+    try:
+        decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
+        data = decrypted_data.decode('cp949')
+    except UnicodeDecodeError as e:
+        print(e)
+        print(encrypted_data)
+        
+        try:
+            decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
+            data = decrypted_data.decode('utf-8')
+        except:
+            data = encrypted_data
 
-    return decode_data
+    return data
 
 
 # @param string $decrypted_data
