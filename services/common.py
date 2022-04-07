@@ -24,16 +24,16 @@ def get_data(user_id):
 # @param string $encrypted_data
 # @return string
 def decrypt_data(encrypted_data):
-    request = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
+    decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
+    decode_data = decrypted_data.decode('cp949')
 
-    return request.decode('cp949')
+    return decode_data
 
 
 # @param string $decrypted_data
 # @param int $user_id
 # @return null
 def update_data(decrypted_data, user_id):
-    sql = 'update ' + db_table + ' set ' + db_column + ' = ' + decrypted_data + ' where id = ' + str(user_id)
+    sql = 'update ' + db_table + ' set ' + db_column + ' = "' + decrypted_data + '" where id = ' + str(user_id)
     cursor.execute(sql)
-    # print('Updated')
     connection.commit()
