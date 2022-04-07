@@ -1,22 +1,22 @@
 import urllib.request
 from urllib.parse import quote
-from connect import *
+from services.connect import *
 
 
 # @param null
 # @return int
 def count_column():
-    sql = 'select count(*) from %s'
-    cursor.execute(sql, db_table)
+    sql = 'select count(*) from ' + db_table
+    cursor.execute(sql)
 
-    return cursor.fetchone()[0]
+    return int(cursor.fetchone()[0])
 
 
 # @param int $user_id
 # @return string $encrypted_data
 def get_data(user_id):
-    sql = 'select %s from %s where id = %s'
-    cursor.execute(sql, (db_column, db_table, user_id))
+    sql = 'select ' + db_column + ' from ' + db_table + ' where id = ' + str(user_id)
+    cursor.execute(sql)
 
     return cursor.fetchone()[0]
 
@@ -33,7 +33,7 @@ def decrypt_data(encrypted_data):
 # @param int $user_id
 # @return null
 def update_data(decrypted_data, user_id):
-    sql = 'update %s set %s = %s where id = %s'
-    cursor.execute(sql, (db_table, db_column, decrypted_data, user_id))
+    sql = 'update ' + db_table + ' set ' + db_column + ' = ' + decrypted_data + ' where id = ' + str(user_id)
+    cursor.execute(sql)
     # print('Updated')
     connection.commit()
