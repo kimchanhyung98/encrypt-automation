@@ -3,8 +3,8 @@ from urllib.parse import quote
 from services.connect import *
 
 
-# @param null
-# @return int
+# @param  null
+# @return  int
 def count_column():
     sql = 'select count(*) from ' + db_table
     cursor.execute(sql)
@@ -12,8 +12,8 @@ def count_column():
     return int(cursor.fetchone()[0])
 
 
-# @param int $user_id
-# @return string $encrypted_data
+# @param  int user_id
+# @return  string
 def get_data(user_id):
     sql = 'select ' + db_column + ' from ' + db_table + ' where id = ' + str(user_id)
     cursor.execute(sql)
@@ -21,29 +21,38 @@ def get_data(user_id):
     return cursor.fetchone()[0]
 
 
-# @param string $encrypted_data
-# @return string
-def decrypt_data(encrypted_data):
+# @param  string encrypted_data
+# @return  string
+def crypto(data):
     try:
-        decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
-        data = decrypted_data.decode('cp949')
+        processed_data = crypto_process(data, 'cp949')
     except UnicodeDecodeError as e:
         print(e)
-        print(encrypted_data)
-        
-        try:
-            decrypted_data = urllib.request.urlopen(api_url + quote(encrypted_data)).read()
-            data = decrypted_data.decode('utf-8')
-        except:
-            data = encrypted_data
+        processed_data = crypto_process(data, 'utf-8')
 
-    return data
+    return processed_data
 
 
-# @param string $decrypted_data
-# @param int $user_id
-# @return null
-def update_data(decrypted_data, user_id):
-    sql = 'update ' + db_table + ' set ' + db_column + ' = "' + decrypted_data + '" where id = ' + str(user_id)
+# @param  string data
+# @param  string encoding_type
+# @return  string
+def crypto_process(data, encoding_type):
+    # encrypt
+    if crypt_type:
+        encrypted_data = urllib.request.urlopen(api_encrypt_url + quote(data)).read()
+        processed_data = encrypted_data.decode(encoding_type)
+    # decrypt
+    else:
+        decrypted_data = urllib.request.urlopen(api_decrypt_url + quote(data)).read()
+        processed_data = decrypted_data.decode(encoding_type)
+
+    return processed_data
+
+
+# @param  string processed_data
+# @param  int user_id
+# @return  null
+def update_data(processed_data, user_id):
+    sql = 'update ' + db_table + ' set ' + db_column + ' = "' + processed_data + '" where id = ' + str(user_id)
     cursor.execute(sql)
     connection.commit()
