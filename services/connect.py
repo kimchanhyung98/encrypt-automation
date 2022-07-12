@@ -4,10 +4,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_url = os.environ.get('API_URL')
+# api
+api_decrypt_url = os.environ.get('API_DECRYPT_URL')
+api_encrypt_url = os.environ.get('API_ENCRYPT_URL')
+# crypt
+crypt_type = os.environ.get('CRYPT_TYPE')
+# db
 db_table = os.environ.get('DB_TABLE')
 db_column = os.environ.get('DB_COLUMN')
 
+# mysql connect
 connection = pymysql.connect(
     host=os.environ.get('DB_HOST'),
     user=os.environ.get('DB_USERNAME'),
