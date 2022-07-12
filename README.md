@@ -13,9 +13,8 @@ API_DECRYPT_URL=
 API_ENCRYPT_URL=
 
 # crypt
-CRYPT_TYPE=true
-# true = encrypt
-# false = decrypt
+CRYPT_TYPE=
+# encrypt or decrypt
 
 # db
 DB_HOST=
