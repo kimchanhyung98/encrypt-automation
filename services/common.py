@@ -41,16 +41,16 @@ def crypto_process(data, encoding_type):
     if crypt_type == 'encrypt':
         encrypted_data = urllib.request.urlopen(api_encrypt_url + quote(data)).read()
         processed_data = encrypted_data.decode(encoding_type)
-        print('encrypted: ', processed_data)
+        # print('encrypted: ', processed_data)
     # decrypt
     else:
         if len(data) > 20:
             decrypted_data = urllib.request.urlopen(api_decrypt_url + quote(data)).read()
             processed_data = decrypted_data.decode(encoding_type)
-            print('decrypted: ', processed_data)
+            # print('decrypted: ', processed_data)
         else:
             processed_data = data
-            print('not_decrypted: ', processed_data)
+            # print('not_decrypted: ', processed_data)
 
     return processed_data
 
