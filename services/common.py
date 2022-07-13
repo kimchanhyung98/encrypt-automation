@@ -21,14 +21,15 @@ def get_data(user_id):
     return cursor.fetchone()[0]
 
 
+# @param  int count
 # @param  string encrypted_data
 # @return  string
-def crypto(data):
+def crypto(count, data):
     try:
         processed_data = crypto_process(data, 'cp949')
     except UnicodeDecodeError as e:
         print(e)
-        print(data)
+        print('id: ', count, ', error: ', data)
 
         try:
             processed_data = crypto_process(data, 'utf-8')
