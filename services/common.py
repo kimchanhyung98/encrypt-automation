@@ -28,7 +28,12 @@ def crypto(data):
         processed_data = crypto_process(data, 'cp949')
     except UnicodeDecodeError as e:
         print(e)
-        processed_data = crypto_process(data, 'utf-8')
+        print(data)
+
+        try:
+            processed_data = crypto_process(data, 'utf-8')
+        except:
+            processed_data = data
 
     return processed_data
 
